@@ -1,0 +1,18 @@
+[package]
+name = "utm_calc"
+version = "0.1.0"
+authors = ["Marco 'don' Kaulea <DonMarco42@gmail.com>"]
+
+[dependencies]
+assert_approx_eq = "*"
+docopt = "0.7.*"
+rustc-serialize = "0.3"
+
+[[bin]]
+name = "utm_calc"
+path = "src/bin.rs"
+
+[lib]
+name = "utm_calc"
+path = "src/lib.rs"
+
