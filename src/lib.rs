@@ -143,7 +143,8 @@ mod tests {
         let coord = UtmCoordinate::from_coords(a);
         assert!(match coord {
             Ok(_) => false,
-            Err(CoordParseError::MalformedCoordinates) => true,
+            Err(CoordParseError::MalformedCoordinates(_)) => true,
+            Err(_) => false,
         });
     }
 
