@@ -66,20 +66,20 @@ pub struct UtmCoordinate {
 }
 
 impl UtmCoordinate {
-    pub fn from_coords(coords: String) -> Result<UtmCoordinate, CoordParseError> {
-        match coords.len() {
-            2 => UtmCoordinate::from_digit(coords, 2),
-            4 => UtmCoordinate::from_digit(coords, 4),
-            6 => UtmCoordinate::from_digit(coords, 6),
-            8 => UtmCoordinate::from_digit(coords, 8),
-            10 => UtmCoordinate::from_digit(coords, 10),
+    pub fn from_coordinates(coordinates: String) -> Result<UtmCoordinate, CoordParseError> {
+        match coordinates.len() {
+            2 => UtmCoordinate::from_digit(coordinates, 2),
+            4 => UtmCoordinate::from_digit(coordinates, 4),
+            6 => UtmCoordinate::from_digit(coordinates, 6),
+            8 => UtmCoordinate::from_digit(coordinates, 8),
+            10 => UtmCoordinate::from_digit(coordinates, 10),
             _ => Err(CoordParseError::MalformedCoordinates(MalformedCoordinates{})),
         }
     }
 
-    fn from_digit(coords: String, digits: usize) -> Result<UtmCoordinate, CoordParseError> {
+    fn from_digit(coordinates: String, digits: usize) -> Result<UtmCoordinate, CoordParseError> {
         let scale: f32 = (10.0 as f32).powi(2 - (digits as i32 / 2));
-        let (east_s, north_s) = coords.split_at(digits / 2);
+        let (east_s, north_s) = coordinates.split_at(digits / 2);
         let east = east_s.parse::<u32>().map_err(CoordParseError::ParseError)?;
         let north = north_s.parse::<u32>().map_err(CoordParseError::ParseError)?;
         Ok(UtmCoordinate { easting: scale * east as f32, northing: scale * north as f32 })
@@ -133,14 +133,14 @@ mod tests {
     #[test]
     fn parse_from_string() {
         let a: String = "55341840".to_string();
-        let coord = UtmCoordinate::from_coords(a).unwrap();
+        let coord = UtmCoordinate::from_coordinates(a).unwrap();
         assert_eq!(UtmCoordinate { easting: 55.34, northing:18.40}, coord)
     }
 
     #[test]
     fn parse_from_malformed_string() {
         let a: String = "5341840".to_string();
-        let coord = UtmCoordinate::from_coords(a);
+        let coord = UtmCoordinate::from_coordinates(a);
         assert!(match coord {
             Ok(_) => false,
             Err(CoordParseError::MalformedCoordinates(_)) => true,

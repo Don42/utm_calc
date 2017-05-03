@@ -20,7 +20,7 @@ fn main() {
     let args: Args = Docopt::new(USAGE)
         .and_then(|d| d.decode())
         .unwrap_or_else(|e| e.exit());
-    let a = UtmCoordinate::from_coords(args.arg_coorddst).unwrap();
-    let b = UtmCoordinate::from_coords(args.arg_coordsrc).unwrap();
+    let a = UtmCoordinate::from_coordinates(args.arg_coorddst).unwrap();
+    let b = UtmCoordinate::from_coordinates(args.arg_coordsrc).unwrap();
     println!("Range: {:>6.0}m", utm_range(a, b) * 1000f32);
 }
